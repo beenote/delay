@@ -1,24 +1,26 @@
 package delay
 
 import (
-	"net/http"
 	"time"
+
+	"github.com/labstack/echo"
 )
 
-const DELAY_HEADER_KEY = "X-Add-Delay"
+// DelayHeader can have value like 300ms 2.5s and 0.5m
+const DelayHeader = "X-Add-Delay"
 
-type Middleware struct{}
-
-func (m Middleware) ServeHTTP(response http.ResponseWriter, request *http.Request, next http.HandlerFunc) {
-	delayHeaderValue := request.Header.Get(DELAY_HEADER_KEY)
-
-	if delayHeaderValue != "" {
-		delayDuration, err := time.ParseDuration(delayHeaderValue)
-
-		if err == nil {
-			time.Sleep(delayDuration)
-		}
+// New add delays latency to your endpoint
+func New() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return echo.HandlerFunc(func(c echo.Context) error {
+			v := c.Request().Header().Get(DelayHeader)
+			if v != "" {
+				d, err := time.ParseDuration(v)
+				if err == nil {
+					time.Sleep(d)
+				}
+			}
+			return next(c)
+		})
 	}
-
-	next(response, request)
 }

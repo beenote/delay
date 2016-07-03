@@ -17,13 +17,13 @@ If the value is not parsable it will not add any latency. It will behave as if t
 
 There is no configuration.
 
-Just slip it in as negroni middleware:
+Just slip it in as echo middleware:
 
 	import (
-	    "github.com/codegangsta/negroni"
-	    "github.com/jeffbmartinez/delay"
+	    "github.com/labstack/echo"
+	    "github.com/hexadecy/delay"
 	)
 	
-    n := negroni.New(...)
-	n.Use(delay.Middleware{})
+    e := echo.New()
+	e.Use(delay.New())
 	// ...
