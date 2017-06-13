@@ -13,7 +13,7 @@ If the value is not parsable it will not add any latency. It will behave as if t
 
 `X-Add-Delay: 2.5s`
 
-## How to use it with negroni
+## How to use it with echo v3
 
 There is no configuration.
 
@@ -21,7 +21,7 @@ Just slip it in as echo middleware:
 
 	import (
 	    "github.com/labstack/echo"
-	    "github.com/hexadecy/delay"
+	    "github.com/beenote/delay"
 	)
 	
     e := echo.New()

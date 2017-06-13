@@ -12,8 +12,8 @@ const DelayHeader = "X-Add-Delay"
 // New add delays latency to your endpoint
 func New() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return echo.HandlerFunc(func(c echo.Context) error {
-			v := c.Request().Header().Get(DelayHeader)
+		return func(c echo.Context) error {
+			v := c.Request().Header.Get(DelayHeader)
 			if v != "" {
 				d, err := time.ParseDuration(v)
 				if err == nil {
@@ -21,6 +21,6 @@ func New() echo.MiddlewareFunc {
 				}
 			}
 			return next(c)
-		})
+		}
 	}
 }
